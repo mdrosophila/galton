@@ -1,0 +1,51 @@
+Predict of Son's Height Based on Father's Height
+========================================================
+author: Quansheng       
+date: `r format(Sys.Date(),"%b %d, %Y")`
+
+Data Used
+========================================================
+
+- Galton father.son data set
+```{r}
+        library(UsingR)
+        data(father.son)
+        str(father.son)
+```
+- Published National Health Statistical Report, 2008
+        Adult men's height distribution (normal distribution) with
+        mean= 69.4 inches
+        sigma=3.0 inches
+
+Build a model that predicts son's height with father's height as predictor
+========================================================
+-  Linear regression model (modfit) with father's height(fheight) as predict and son's height(sheight) as outcome.
+- Give the pred model new data, father_height, and return son's predicted height, son_height
+
+```{r}
+pred<-function(father_height){
+        modfit<-lm(sheight~fheight,data=father.son)
+        newdata<-data.frame(fheight=father_height)
+        son_height<-predict(modfit,newdata,interval="prediction")
+        return (son_height)     }
+```
+
+Build US Men height Distribution Model
+========================================================
+- A normal distribution with mean=69.4 inches, sigma=3.0 inches
+```{r, eval=FALSE}
+        x<-seq(50,90,by=0.1)
+        y<-dnorm(x,69.4,3)
+        plot(x,y,type="l",lwd=2,col="black",xlab="Height (Inches)",
+                ylab="Probability",main="US Men's Height Distribution")
+```
+Plot father's height and son's height on the US men's distribution model
+========================================================
+
+```{r, eval=FALSE}
+        lines(c(father(),father()),c(-0.02,0.14),col="red",lwd=2)
+        lines(c(son()[1],son()[1]),c(-0.02,0.14),col="blue",lwd=2)
+        legend("topright",lty=c(1,1),lwd=2,col=c("red","blue"),
+        legend=c(paste("father",round(pnorm(father(),mean,sigma)*100,1),"percentile"),
+        paste("son",round(pnorm(son()[1],mean,sigma)*100,1),"percentile")))
+```

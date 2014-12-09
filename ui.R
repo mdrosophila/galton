@@ -8,7 +8,7 @@ shinyUI(pageWithSidebar(
                 submitButton("Submit"),
                 h4("References:"),
                 p("1. National Health Statistical Report, 2008,"),
-                p("2.Galton father.son data set, 1885.")
+                p("2. Galton father.son data set, 1885.")
                 
         ),
         mainPanel(
